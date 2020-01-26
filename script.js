@@ -1,21 +1,52 @@
 'use script';
 
-let bud = prompt("Ваш бюджет на месяц?", 1);
+let money, time;
+function start(){
+    money = +prompt("Ваш бюджет на месяц?", "");    
+    time = prompt("Введите дату в формате YYYY-MM-DD");
+    while(isNaN(money) || money == '' || money == null){
+        money = +prompt("Ваш бюджет на месяц?", "");
+    }
+}
 
-console.log(bud);
-let timeData=prompt("Введите дату в формате YYYY-MM-DD");
+start();
 let appdata={
-    bud: bud,
-    timeData: timeData,
+    budget: money,
+    timeData: time,
     expenses: {},
     optionalExpenses: {},
     income: [],
-    savings: false
+    savings: true
 };
-let first=prompt("Введите обязательную статью расходов в этом месяце");
-appdata.optionalExpenses.first = prompt("“Во сколько обойдется?”");
-alert(bud/30);
 
 
+function chooseExpenses(){
+    for (let i=0; i<2; i++) {
+        let a = prompt("Введите обязательную статью расходов в этом месяце",''),
+            b = prompt("Во сколько обойдется?", '');
+        if (typeof(a) === 'string' && typeof(a) != null && typeof(b) != null && 
+            a != '' && b != ''){
+               appdata.expenses [a] = b;
+           } else {
+               i = i - 1;
+           }
 
+    }
+}
+
+
+appdata.moneyPerDay = (appdata.budget / 30).toFixed();
+//alert(money/30);
+
+function checkSavings(){
+    if(appdata.savings == true){
+        let save = +prompt("Какова сумма накоплений?"),
+            percent = +prompt("Под какой процент?");
+    appdata.monthIncome = save / 100 / 12 * percent;
+    alert("Доход в месяц: " + appdata.monthIncome);    
+    }
+}
+
+chooseExpenses();
+checkSavings();
 
